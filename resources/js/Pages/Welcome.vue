@@ -15,7 +15,7 @@ import '../../css/login.css'
 
 // Prop para recibir mensajes "flash"
 const props = defineProps({
-flash: Object
+  flash: Object
 })
 
 // --- Lógica de carga (SIN CAMBIOS) ---
@@ -55,6 +55,7 @@ const submit = () => {
 </script>
 
 <template>
+
   <Head title="Login" />
 
   <div id="loader" v-if="isLoading">
@@ -62,18 +63,18 @@ const submit = () => {
   </div>
 
   <div id="main-content" v-if="!isLoading" class="login-page">
-    
+
     <div class="video-background">
       <video autoplay muted loop playsinline poster="/img/gym.mp4">
         <source src="/img/gym.mp4" type="video/mp4">
       </video>
-      <div class="video-overlay"></div> 
+      <div class="video-overlay"></div>
     </div>
 
     <div class="login-card-container">
-      
+
       <div class="login-card">
-        
+
         <div class="logo-container">
           <center>
             <img src="/img/Gym.png" alt="Logo Gym" class="gym-logo" />
@@ -84,38 +85,19 @@ const submit = () => {
         <FormValidationErrors class="mb-4" />
 
         <form @submit.prevent="submit" class="w-100">
-          
+
           <FormField label="Correo electrónico" label-for="email">
-            <FormControl
-              id="email"
-              v-model="form.email"
-              :icon="mdiAccount"
-              type="email"
-              placeholder="tu@correo.com"
-              required
-              autocomplete="username"
-              class="text-black placeholder:text-gray-500"
-            />
+            <FormControl id="email" v-model="form.email" :icon="mdiAccount" type="email" placeholder="tu@correo.com"
+              required autocomplete="username" class="text-black placeholder:text-gray-500" />
           </FormField>
 
           <FormField label="Contraseña" label-for="password">
-            <FormControl
-              id="password"
-              v-model="form.password"
-              :icon="mdiAsterisk"
-              type="password"
-              placeholder="••••••••"
-              required
-              autocomplete="current-password"
-              class="text-black placeholder:text-gray-500"
-            />
+            <FormControl id="password" v-model="form.password" :icon="mdiAsterisk" type="password"
+              placeholder="••••••••" required autocomplete="current-password"
+              class="text-black placeholder:text-gray-500" />
           </FormField>
 
-          <button 
-            type="submit" 
-            class="btn-submit-gym" 
-            :disabled="form.processing"
-          >
+          <button type="submit" class="btn-submit-gym" :disabled="form.processing">
             Ingresar
           </button>
         </form>
