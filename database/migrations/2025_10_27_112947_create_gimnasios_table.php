@@ -19,11 +19,13 @@ return new class extends Migration
             $table->time('hora_apertura');
             $table->time('hora_cierre');
             $table->string('maxima_capacidad');
-            $table->boolean('estado');
+            $table->string('estatus');
             $table->string('numero');
             $table->string('calle');
             $table->string('colonia');
+            $table->string('cp');
             $table->string('municipio');
+            $table->string('estado');
             $table->timestamps();
         });
     }
