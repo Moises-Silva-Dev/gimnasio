@@ -1,0 +1,203 @@
+/* --- ESTILOS GLOBALES Y FUENTE --- */
+html, body {
+  height: 100%;
+  margin: 0;
+  /* Usamos una fuente más moderna y deportiva */
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  overflow: hidden; /* Evita el scroll en la página de login */
+  background-color: #121212;
+}
+
+/* --- NUEVO LOADER (SPINNER) --- */
+#loader {
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #121212; /* Fondo oscuro */
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #444; /* Gris base del spinner */
+  border-top-color: #f0c400; /* Color acento (amarillo) */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- DISEÑO DE PÁGINA PRINCIPAL --- */
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  color: white;
+}
+
+/* --- FONDO DE VIDEO --- */
+.video-background {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+
+.video-background video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que el video cubra todo */
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  /* Capa oscura para legibilidad */
+  background-color: rgba(0, 0, 0, 0.65); 
+  z-index: 2;
+}
+
+/* --- TARJETA DE LOGIN FLOTANTE --- */
+.login-card-container {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.login-card {
+  /* Efecto Glassmorphism */
+  background: rgba(25, 25, 25, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* --- LOGO Y TÍTULO --- */
+.logo-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.gym-logo {
+  width: 100px;
+  height: auto;
+  margin-bottom: 1rem;
+  /* Puedes aplicar un filtro si tu logo no es blanco */
+  /* filter: brightness(0) invert(1); */
+}
+
+.logo-container h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+/* --- FOOTER --- */
+.login-footer {
+  position: absolute;
+  bottom: 1.5rem;
+  width: 100%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  z-index: 4;
+}
+
+/* --- ESTILOS PARA TUS COMPONENTES VUE --- */
+/* NOTA: Estos selectores apuntan a las clases que 
+  probablemente usan tus componentes FormField y FormControl. 
+  Si no funcionan, ajusta los selectores.
+*/
+
+/* Etiqueta del FormField */
+.form-field label {
+  color: #ccc;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem; /* Asegura espacio entre label e input */
+  display: block; /* Asegura que ocupe su propia línea */
+}
+
+/* Input del FormControl */
+.form-control {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid #555 !important;
+  color: white !important; /* TEXTO BLANCO */
+  border-radius: 8px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  /* El padding-left se ajusta por el ícono de mdi */
+  padding-left: 2.75rem !important; 
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control::placeholder {
+  color: #888 !important; /* Placeholder más claro */
+}
+
+.form-control:focus {
+  border-color: #f0c400 !important; /* Borde amarillo al enfocar */
+  box-shadow: 0 0 0 3px rgba(240, 196, 0, 0.3) !important;
+  outline: none;
+}
+
+/* --- NUEVO BOTÓN DE SUBMIT --- */
+.btn-submit-gym {
+  background: #f0c400; /* Color acento amarillo */
+  color: #121212; /* Texto oscuro para buen contraste */
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 1.5rem; /* Espacio antes del botón */
+  text-transform: uppercase;
+}
+
+.btn-submit-gym:hover {
+  background: #ffd93b; /* Amarillo más brillante al pasar el mouse */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(240, 196, 0, 0.2);
+}
+
+.btn-submit-gym:disabled {
+  background-color: #555;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+    margin-top: 5vh;
+  }
+  .logo-container h2 {
+    font-size: 1.5rem;
+  }
+}
