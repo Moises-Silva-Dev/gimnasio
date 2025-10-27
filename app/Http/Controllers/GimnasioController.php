@@ -6,8 +6,7 @@ use App\Models\Gimnasio;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class GimnasioController extends Controller
-{
+class GimnasioController extends Controller {
     // Guarda el nombre de la ruta para el formulario
     private string $routeName; // Nombre de la ruta para el formulario
     protected string $module = 'gimnasio.'; // Nombre del módulo para los permisos
@@ -35,7 +34,7 @@ class GimnasioController extends Controller
 
         $gimnasios = $query->orderBy('id', 'desc')->paginate(8)->withQueryString(); // Pagina resultados
 
-        return Inertia::render("Gimnasio/Index", [
+        return Inertia::render('Gimnasio/Index', [
             'titulo' => 'Lista de Gimnasios',
             'gimnasios' => $gimnasios,
             'routeName' => $this->routeName,
@@ -46,9 +45,11 @@ class GimnasioController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function create() {
+        return Inertia::render('Gimnasio/Create', [
+            'titulo' => 'Crear Registro de Gimnasio',
+            'routeName' => $this->routeName,
+        ]);
     }
 
     /**
@@ -88,6 +89,7 @@ class GimnasioController extends Controller
      */
     public function destroy(Gimnasio $gimnasio)
     {
-        //
+        $gimnasio->delete();
+        return redirect()->route($this->routeName . 'index')->with('success', 'Gimnasio eliminado correctamente');
     }
 }

@@ -34,7 +34,7 @@ const destroy = (id) => {
         confirmButtonText: "Sí, eliminar registro!",
     }).then((res) => {
         if (res.isConfirmed) {
-            router.delete(route(`${props.routeName}.destroy`, id));
+            router.delete(route(`${props.routeName}destroy`, id));
         }
     });
 };
@@ -46,7 +46,7 @@ const filters = ref({ ...props.filters })
 <template>
     <LayoutMain>
         <SectionTitleLineWithButton :title="props.titulo" main :icon="mdiApps">
-            <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nueva Cuenta" :icon="mdiPlus" />
+            <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nuevo Gimnasio" :icon="mdiPlus" />
         </SectionTitleLineWithButton>
 
         <SearchBar v-model="filters.search" :routeName="routeName"
