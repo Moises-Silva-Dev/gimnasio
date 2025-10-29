@@ -36,8 +36,8 @@ const guardar = () => {
         <CardBox form @submit.prevent="guardar">
             <FormField>
                 <FormControl v-model="form.name" placeholder="nombre" />
-                <FormControl v-model="form.apellido_paterno" placeholder="apellido_paterno" />
-                <FormControl v-model="form.apellido_materno" placeholder="apellido_materno" />
+                <FormControl v-model="form.last_name" placeholder="last_name" />
+                <FormControl v-model="form.mother_last_name" placeholder="mother_last_name" />
                 <FormControl v-model="form.numero" placeholder="numero" />
                 <FormControl v-model="form.email" placeholder="email" />
             </FormField>

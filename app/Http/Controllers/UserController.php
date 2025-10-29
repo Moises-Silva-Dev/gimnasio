@@ -24,7 +24,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->routeName = "users.";
-        $this->source = "Seguridad/Usuarios/";
+        $this->source = "Security/User/";
         $this->model = new User();
         $this->middleware("permission:{$this->module}.index")->only(['index', 'show']);
         $this->middleware("permission:{$this->module}.store")->only(['store', 'create']);

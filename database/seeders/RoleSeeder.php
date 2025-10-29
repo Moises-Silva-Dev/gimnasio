@@ -21,7 +21,7 @@ class RoleSeeder extends Seeder
         ]);
 
         $rol2 = Role::create([
-            'name' => 'Desarrollador',
+            'name' => 'Member',
             'description' => 'Acceso a módulos de desarrollo y configuración, puede gestionar ciertas funcionalidades técnicas'
         ]);
 

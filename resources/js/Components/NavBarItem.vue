@@ -21,20 +21,20 @@ const props = defineProps({
 
 const emit = defineEmits(["menu-click"]);
 const numberNotis = ref(null)
-const fungllo = () => {
-  axios
-    .get(route("notifications.unreadCount"))
-    .then((response) => {
-      const NotificationCount = response.data.unread_count;
-      numberNotis.value= NotificationCount
-    })
-    .catch((error) => {
-      console.error(
-        "Error al cargar el recuento de notificaciones no leídas:",
-        error
-      );
-    });
-};
+// const fungllo = () => {
+//   axios
+//     .get(route("notifications.unreadCount"))
+//     .then((response) => {
+//       const NotificationCount = response.data.unread_count;
+//       numberNotis.value= NotificationCount
+//     })
+//     .catch((error) => {
+//       console.error(
+//         "Error al cargar el recuento de notificaciones no leídas:",
+//         error
+//       );
+//     });
+// };
 
 const itemHref = computed(() =>
   props.item.route ? route(props.item.route) : props.item.href
@@ -72,7 +72,7 @@ const componentClass = computed(() => {
 const itemLabel = computed(() => {
   if (props.item.isCurrentUser) {
     const currentUser = usePage().props.auth.user;
-    const nombreCompleto = `${currentUser.name} ${currentUser.apellido_paterno} ${currentUser.apellido_materno}`;
+    const nombreCompleto = `${currentUser.name} ${currentUser.last_name} ${currentUser.mother_last_name}`;
     return nombreCompleto;
   } else if (props.item.isRol) {
     // Obtener el rol activo de las props de auth
@@ -121,12 +121,12 @@ const forceClose = (event) => {
   }
 };
 
-onMounted(() => {
-  fungllo();
-  if (props.item.menu) {
-    window.addEventListener("click", forceClose);
-  }
-});
+// onMounted(() => {
+//   fungllo();
+//   if (props.item.menu) {
+//     window.addEventListener("click", forceClose);
+//   }
+// });
 
 onBeforeUnmount(() => {
   if (props.item.menu) {

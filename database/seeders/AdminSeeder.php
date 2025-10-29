@@ -17,10 +17,10 @@ class AdminSeeder extends Seeder
    */
   public function run(): void
   {
-    DB::table('users')->insert(['name' => 'Admin', 'apellido_paterno' => 'Admin', 'apellido_materno' => 'Admin', 'numero' => '7770000006', 'email' => 'admin@gmail.com', 'email_verified_at' => '2024-01-17 04:50:32', 'password' => Hash::make('12345678'), 'role' => 'Admin']);
-    DB::table('users')->insert(['name' => 'Miguel', 'apellido_paterno' => 'Dev', 'apellido_materno' => 'Devs', 'numero' => '7770001236', 'email' => 'miguel@gmail.com', 'email_verified_at' => '2024-01-17 04:50:32', 'password' => Hash::make('12345678'), 'role' => 'Desarrollador']);
-    DB::table('users')->insert(values: ['name' => 'Moises', 'apellido_paterno' => 'Dev', 'apellido_materno' => 'Devs', 'numero' => '7770001237', 'email' => 'moi@gmail.com', 'email_verified_at' => '2024-01-17 04:50:32', 'password' => Hash::make('12345678'), 'role' => 'Desarrollador']);
-    DB::table('users')->insert(values: ['name' => 'Moises', 'apellido_paterno' => 'Dev', 'apellido_materno' => 'Devs', 'numero' => '7770001230', 'email' => 'user@gmail.com', 'email_verified_at' => '2024-01-17 04:50:32', 'password' => Hash::make('12345678'), 'role' => 'Desarrollador']);
+    DB::table('users')->insert(['name' => 'Admin', 'last_name' => 'Admin', 'mother_last_name' => 'Admin', 'numero' => '7770000006', 'email' => 'admin@gmail.com', 'email_verified_at' => '2024-01-17 04:50:32', 'password' => Hash::make('12345678'), 'role' => 'Admin']);
+    DB::table('users')->insert(['name' => 'Miguel', 'last_name' => 'Dev', 'mother_last_name' => 'Devs', 'numero' => '7770001236', 'email' => 'miguel@gmail.com', 'email_verified_at' => '2024-01-17 04:50:32', 'password' => Hash::make('12345678'), 'role' => 'Member']);
+    DB::table('users')->insert(values: ['name' => 'Moises', 'last_name' => 'Dev', 'mother_last_name' => 'Devs', 'numero' => '7770001237', 'email' => 'moi@gmail.com', 'email_verified_at' => '2024-01-17 04:50:32', 'password' => Hash::make('12345678'), 'role' => 'Member']);
+    DB::table('users')->insert(values: ['name' => 'Moises', 'last_name' => 'Dev', 'mother_last_name' => 'Devs', 'numero' => '7770001230', 'email' => 'user@gmail.com', 'email_verified_at' => '2024-01-17 04:50:32', 'password' => Hash::make('12345678'), 'role' => 'Member']);
 
 
 
@@ -28,9 +28,9 @@ class AdminSeeder extends Seeder
     $user1->assignRole('Admin');
 
     $user2 = User::where('email', 'miguel@gmail.com')->first();
-    $user2->assignRole('Desarrollador');
+    $user2->assignRole('Member');
     $user3 = User::where('email', 'moi@gmail.com')->first();
-    $user3->assignRole('Desarrollador');
+    $user3->assignRole('Member');
 
 
 

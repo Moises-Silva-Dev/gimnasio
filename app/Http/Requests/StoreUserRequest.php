@@ -24,8 +24,8 @@ class StoreUserRequest extends FormRequest
     {
         $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'apellido_paterno' => ['required', 'string', 'max:255'],
-            'apellido_materno' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'mother_last_name' => ['required', 'string', 'max:255'],
             'numero' => ['required', 'digits:10'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required','string', 'min:8'],
@@ -40,8 +40,8 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name.required' => 'El campo nombre es obligatorio.',
-            'apellido_paterno.required' => 'El campo apellido paterno es obligatorio.',
-            'apellido_materno' => 'El campo apellido materno es obligatorio.',
+            'last_name.required' => 'El campo apellido paterno es obligatorio.',
+            'mother_last_name' => 'El campo apellido materno es obligatorio.',
             'numero' => 'El campo Teléfono es obligatorio.',
             'numero.digits' => 'El número de teléfono debe contener exactamente 10 dígitos.',
             'email' => 'El campo Correo Electronico es obligatorio.',

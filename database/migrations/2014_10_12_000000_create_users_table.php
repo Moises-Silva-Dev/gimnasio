@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             
             $table->string('name');
-            $table->string('apellido_paterno');
-            $table->string('apellido_materno');
+            $table->string('last_name');
+            $table->string('mother_last_name');
             $table->string('numero');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

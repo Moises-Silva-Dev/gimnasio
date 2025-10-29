@@ -9,7 +9,7 @@ use Inertia\Inertia;
 class ModuleController extends Controller
 {
     protected string $routeName;
-    protected string $source = 'Seguridad/Modules/';
+    protected string $source = 'Security/Module/';
      protected string $module = 'module';
     public function __construct()
     {

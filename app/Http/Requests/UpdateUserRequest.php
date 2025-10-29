@@ -24,8 +24,8 @@ class UpdateUserRequest extends FormRequest
     {
         $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'apellido_paterno' => ['required', 'string', 'max:255'],
-            'apellido_materno' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'mother_last_name' => ['required', 'string', 'max:255'],
             'numero' => ['required', 'string', 'max:20'],
             'email' => [
                 'required',
@@ -48,8 +48,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'Nombre',
-            'apellido_paterno' => 'Apellido Paterno',
-            'apellido_materno' => 'Apellido Materno',
+            'last_name' => 'Apellido Paterno',
+            'mother_last_name' => 'Apellido Materno',
             'numero' => 'Número Telefónico',
             'email' => 'Correo Electrónico',
             'roles' => 'Roles',
