@@ -26,7 +26,7 @@ class UpdateUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'mother_last_name' => ['required', 'string', 'max:255'],
-            'numero' => ['required', 'string', 'max:20'],
+            'phone' => ['required', 'string', 'max:20'],
             'email' => [
                 'required',
                 'string',
@@ -50,7 +50,7 @@ class UpdateUserRequest extends FormRequest
             'name' => 'Nombre',
             'last_name' => 'Apellido Paterno',
             'mother_last_name' => 'Apellido Materno',
-            'numero' => 'Número Telefónico',
+            'phone' => 'Número Telefónico',
             'email' => 'Correo Electrónico',
             'roles' => 'Roles',
         ];

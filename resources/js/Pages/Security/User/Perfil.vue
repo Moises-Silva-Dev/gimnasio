@@ -38,7 +38,7 @@ const guardar = () => {
                 <FormControl v-model="form.name" placeholder="nombre" />
                 <FormControl v-model="form.last_name" placeholder="last_name" />
                 <FormControl v-model="form.mother_last_name" placeholder="mother_last_name" />
-                <FormControl v-model="form.numero" placeholder="numero" />
+                <FormControl v-model="form.phone" placeholder="phone" />
                 <FormControl v-model="form.email" placeholder="email" />
             </FormField>
             

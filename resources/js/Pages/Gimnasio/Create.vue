@@ -36,7 +36,7 @@ const form = useForm({
     hora_cierre: '',
     maxima_capacidad: '',
     estatus: '',
-    numero: '',
+    phone: '',
     calle: '',
     colonia: '',
     cp: '',
@@ -84,8 +84,8 @@ const handleSubmit = () => {
                     <FormControl v-model="form.estatus" type="text" required :icon="mdiAccount" placeholder="Ingresa el estatus" />
                 </FormField>
 
-                <FormField :error="form.errors.numero" label="Número">
-                    <FormControl v-model="form.numero" type="text" required :icon="mdiAccount" placeholder="Ingresa el número" />
+                <FormField :error="form.errors.phone" label="Número">
+                    <FormControl v-model="form.phone" type="text" required :icon="mdiAccount" placeholder="Ingresa el número" />
                 </FormField>
 
                 <FormField :error="form.errors.calle" label="Calle">

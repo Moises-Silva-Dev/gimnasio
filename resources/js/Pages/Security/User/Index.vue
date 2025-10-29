@@ -85,7 +85,7 @@ const eliminarAdmin = (id) => {
                         <td data-label="Nombre">{{ item.name }}</td>
                         <td data-label="Apellido paterno">{{ item.last_name}}</td>
                         <td data-label="Apellido materno">{{ item.mother_last_name }}</td>
-                        <td data-label="Número">{{ item.numero }}</td>
+                        <td data-label="Número">{{ item.phone }}</td>
                         <td data-label="Email">{{ item.email }}</td>
                         <td>{{ item.created_at_formatted.human  }}</td>
                         <td data-label="Rol">

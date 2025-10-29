@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Gym;
 use App\Notifications\CredentialsNotification;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
@@ -56,10 +57,11 @@ class UserController extends Controller
     public function create()
     {
 
-        return Inertia::render("Seguridad/Usuarios/Create", [
+        return Inertia::render("{$this->source}Create", [
             'titulo' => 'Agregar Usuario ',
             'routeName' => $this->routeName,
             'roles' => Role::orderBy('name')->select('id', 'name', )->get(),
+            'gyms' => Gym::orderBy('name')->select('id', 'name')->get(),
         ]);
     }
 
@@ -68,10 +70,10 @@ class UserController extends Controller
         $newUser = User::create($request->validated());
         $newUser->syncRoles($request->roles);
 
-        $newUser->notify(instance: new CredentialsNotification(
-            $request->email,
-            $request->password
-        ));
+        // $newUser->notify(instance: new CredentialsNotification(
+        //     $request->email,
+        //     $request->password
+        // ));
 
         return redirect()->route("{$this->routeName}index")->with('success', '¡Usuario creado con éxito!');
     }
@@ -79,11 +81,12 @@ class UserController extends Controller
     {
         $user->load('roles:id,name');
 
-        return Inertia::render("Seguridad/Usuarios/Edit", [
+        return Inertia::render("{$this->source}Edit", [
             'titulo' => 'Modificar Usuario ',
-            'usuario' => $user,
+            'user' => $user,
             'routeName' => $this->routeName,
             'roles' => Role::orderBy('name')->select('id', 'name', )->get(),
+            'gyms' => Gym::orderBy('name')->select('id', 'name')->get(),
         ]);
     }
     public function update(UpdateUserRequest $request, User $user)

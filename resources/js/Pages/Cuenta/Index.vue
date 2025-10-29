@@ -79,7 +79,7 @@ const filters = ref({ ...props.filters })
                     <tr v-for="documento in cuentas.data" :key="documento.id">
                         <td class="align-items-center"></td>
                         <td data-label="Nombre Cuenta" class="border p-2">{{ documento.nombre_cuenta }}</td>
-                        <td data-label="N° Empleados" class="border p-2">{{ documento.numero_empleados }}</td> 
+                        <td data-label="N° Empleados" class="border p-2">{{ documento.phone_empleados }}</td> 
                         <td>{{ documento.created_at_formatted.human  }}</td>                        
                         <td class="before:hidden lg:w-1 whitespace-nowrap">
                             <BaseButtons type="justify-start lg:justify-end" no-wrap>
