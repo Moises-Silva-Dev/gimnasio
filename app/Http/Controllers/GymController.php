@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gym;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreGymRequest;
+use App\Http\Requests\UpdateGymRequest;
 use Inertia\Inertia;
 
 class GymController extends Controller {
@@ -72,17 +73,20 @@ class GymController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Gym $gym)
-    {
-        //
+    public function edit(Gym $gym) {
+        return Inertia::render('Gym/Edit', [
+            'title' => 'Editar Registro de Gimnasio',
+            'gym' => $gym,
+            'routeName' => $this->routeName,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Gym $gym)
-    {
-        //
+    public function update(UpdateGymRequest $request, Gym $gym) {
+        Gym::where('id', $gym->id)->update($request->validated());
+        return redirect()->route($this->routeName . 'index')->with('success', 'Registro actualizado con éxito.');
     }
 
     /**

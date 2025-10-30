@@ -11,17 +11,7 @@ import BaseButtons from "@/Components/BaseButtons.vue";
 import SectionTitleLineWithButton from "@/Components/SectionTitleLineWithButton.vue";
 import CardBox from "@/Components/CardBox.vue";
 import NotificationBar from "@/Components/NotificationBar.vue";
-import {
-    mdiAccount,
-    mdiAccountCircle,
-    mdiAccountTie,
-    mdiPhone,
-    mdiMail,
-    mdiLock,
-    mdiOfficeBuilding
-} from "@mdi/js";
-
-const isUploading = ref(false)
+import { mdiAccount, mdiAccountCircle, mdiAccountTie, mdiPhone, mdiMail, mdiLock, mdiOfficeBuilding } from "@mdi/js";
 
 const props = defineProps({
     title: String,
@@ -36,7 +26,6 @@ const form = useForm({
 
 const handleSubmit = () => {
     console.log('Formulario enviado:', form);
-    // form.post(route(`${props.routeName}store`)); // Corregida sintaxis de ruta
     form.post(route(`${props.routeName}store`));
 };
 </script>

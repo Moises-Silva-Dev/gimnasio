@@ -2,19 +2,19 @@
 
 namespace App\Http\Requests;
 
-use DragonCode\Support\Facades\Helpers\Arr;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreGymRequest extends FormRequest {
+class UpdateGymRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool { 
+    public function authorize(): bool {
         return true;
     }
 
     public function rules(): array {
-        $isCreate = $this->isMethod('post'); // Detectar si es creación
+        $isUpdate = $this->isMethod('put'); // Detectar si es actualización
 
         return [
             'name' => ['required', 'string', 'max:255'],
