@@ -24,37 +24,7 @@ class ModuleSeeder extends Seeder
                 'name' => 'Roles',
                 'key' => 'roles',
                 'description' => 'Gestión de roles y permisos'
-            ],
-            [
-                'name' => 'Departamentos',
-                'key' => 'departments',
-                'description' => 'Gestión de departamentos'
-            ],
-            [
-                'name' => 'Inventario',
-                'key' => 'inventory',
-                'description' => 'Gestión de inventario de equipos'
-            ],
-            [
-                'name' => 'Sistemas',
-                'key' => 'systems',
-                'description' => 'Gestión de sistemas y documentación'
-            ],
-            [
-                'name' => 'Procesos',
-                'key' => 'processes',
-                'description' => 'Gestión de procesos'
-            ],
-            [
-                'name' => 'Certificaciones',
-                'key' => 'certifications',
-                'description' => 'Gestión de certificaciones'
-            ],
-            [
-                'name' => 'Marcas',
-                'key' => 'brands',
-                'description' => 'Gestión de marcas de hardware'
-            ],
+            ],           
             [
                 'name' => 'Modulos',
                 'key' => 'modules',

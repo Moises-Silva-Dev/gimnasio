@@ -18,14 +18,14 @@ class StoreCuentaRequest extends FormRequest {
 
         return [
             'nombre_cuenta' => ['required', 'string', 'max:255'],
-            'numero_empleados' => ['required', 'string', 'max:255'],
+            'phone_empleados' => ['required', 'string', 'max:255'],
         ];
     }
 
     public function messages(): array {
         return [
             'nombre_cuenta.required' => 'El nombre de la cuenta es requerido',
-            'numero_empleados.required' => 'El número de empleados de la cuenta es requerido',
+            'phone_empleados.required' => 'El número de empleados de la cuenta es requerido',
         ];
     }
 }

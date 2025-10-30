@@ -11,7 +11,7 @@ use Inertia\Inertia;
 class RoleController extends Controller
 {
     protected string $routeName;
-    protected string $source = 'Seguridad/Roles/';
+    protected string $source = 'Security/Role/';
     protected string $module = 'roles';
 
     public function __construct()

@@ -64,12 +64,6 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Auth/RoleSelect');
     })->name('role.select');
 
-        //Notificaciones 
-    //Route::get('/notificaciones', [NotificationController::class, 'index']);
-    Route::get('/notificaciones', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::put('/notificaciones/{id}/marcar-como-leida', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
-    Route::delete('/notificaciones/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
-    Route::get('/notificaciones/count-no-leidas', [NotificationController::class, 'NotificationCount'])->name('notifications.unreadCount');
 
     // Cuentas
     Route::resource('cuenta', controller: App\Http\Controllers\CuentaController::class);

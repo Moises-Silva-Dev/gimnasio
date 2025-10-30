@@ -21,6 +21,8 @@ class RoleSeeder extends Seeder
         ]);
 
         $rol2 = Role::create([
+            'name' => 'Member',
+            'description' => 'Acceso a módulos de desarrollo y configuración, puede gestionar ciertas funcionalidades técnicas'
             'name' => 'Miembros',
             'description' => 'Acceso a módulos solo para miembros del Gym'
         ]);

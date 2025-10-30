@@ -83,9 +83,9 @@ const eliminarAdmin = (id) => {
                     <tr v-for="item in users.data" :key="item.id">
                         <td class="align-items-center"></td>
                         <td data-label="Nombre">{{ item.name }}</td>
-                        <td data-label="Apellido paterno">{{ item.apellido_paterno }}</td>
-                        <td data-label="Apellido materno">{{ item.apellido_materno }}</td>
-                        <td data-label="Número">{{ item.numero }}</td>
+                        <td data-label="Apellido paterno">{{ item.last_name}}</td>
+                        <td data-label="Apellido materno">{{ item.mother_last_name }}</td>
+                        <td data-label="Número">{{ item.phone }}</td>
                         <td data-label="Email">{{ item.email }}</td>
                         <td>{{ item.created_at_formatted.human  }}</td>
                         <td data-label="Rol">

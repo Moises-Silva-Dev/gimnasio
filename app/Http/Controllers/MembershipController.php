@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notification;
+use App\Models\Membership;
 use Illuminate\Http\Request;
 
-class NotificationController extends Controller
+class MembershipController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class NotificationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Notification $notification)
+    public function show(Membership $membership)
     {
         //
     }
@@ -42,7 +42,7 @@ class NotificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Notification $notification)
+    public function edit(Membership $membership)
     {
         //
     }
@@ -50,7 +50,7 @@ class NotificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Notification $notification)
+    public function update(Request $request, Membership $membership)
     {
         //
     }
@@ -58,7 +58,7 @@ class NotificationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Notification $notification)
+    public function destroy(Membership $membership)
     {
         //
     }

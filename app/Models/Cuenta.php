@@ -10,7 +10,7 @@ class Cuenta extends Model
 {
     use HasFactory, DateFormat;
     protected $table = 'cuentas';
-    protected $fillable = ['nombre_cuenta', 'numero_empleados'];
+    protected $fillable = ['nombre_cuenta', 'phone_empleados'];
     protected $appends = ['created_at_formatted'];
 
     public function getCreatedAtFormattedAttribute()

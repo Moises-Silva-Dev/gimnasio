@@ -12,7 +12,7 @@ use App\Models\Module;
 class PermissionController extends Controller
 {
     protected string $routeName;
-    protected string $source = 'Seguridad/Permisos/';
+    protected string $source = 'Security/Permission/';
 
     protected string $module = 'permissions';
     public function __construct()
