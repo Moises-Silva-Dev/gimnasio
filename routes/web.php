@@ -68,9 +68,6 @@ Route::middleware('auth')->group(function () {
     // Cuentas
     Route::resource('cuenta', controller: App\Http\Controllers\CuentaController::class);
 
-    // Gimnasio
-    Route::resource('gimnasio', controller: App\Http\Controllers\GimnasioController::class);
-
     // Gym
     Route::resource('gym', controller: App\Http\Controllers\GymController::class);
 });

@@ -28,15 +28,15 @@ class GymController extends Controller {
 
         if ($request->has('search') && $request->search !== null) { // Filtrar si hay búsqueda
             $query->where('name', 'like', '%' . $request->search . '%'); // Filtra por nombre
-            $query->orWhere('email', 'like', '%' . $request->search . '%'); // Filtra por correo
+            $query->orWhere('address', 'like', '%' . $request->search . '%'); // Filtra por correo
             $query->orWhere('phone', 'like', '%' . $request->search . '%'); // Filtra por telefono
         }
 
-        $gym = $query->orderBy('id', 'desc')->paginate(8)->withQueryString(); // Pagina resultados
+        $gyms = $query->orderBy('id', 'desc')->paginate(8)->withQueryString(); // Pagina resultados
 
-        return Inertia::render('Gimnasio/Index', [
+        return Inertia::render('Gym/Index', [
             'title' => 'Lista de Gimnasios',
-            'gyms' => $gym,
+            'gyms' => $gyms,
             'routeName' => $this->routeName,
             'filters' => $request->only(['search']),
         ]);

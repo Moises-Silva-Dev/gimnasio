@@ -81,7 +81,7 @@ export default [
     role: "Admin",
     menu: [
       {
-        href:"/gimnasio",
+        href:"/gym",
         label: "Gimnasios",
         icon: mdiTrademark,
         role: "Admin",
