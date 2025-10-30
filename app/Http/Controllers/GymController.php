@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gym;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreGymRequest;
 use Inertia\Inertia;
 
 class GymController extends Controller {
@@ -45,9 +46,8 @@ class GymController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return Inertia::render('Gimnasio/Create', [
+    public function create() {
+        return Inertia::render('Gym/Create', [
             'title' => 'Crear Registro de Gimnasio',
             'routeName' => $this->routeName,
         ]);
@@ -56,9 +56,9 @@ class GymController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(StoreGymRequest $request) {
+        Gym::create($request->validated());
+        return redirect()->route($this->routeName . 'index')->with('success', 'Registro creado con éxito.');
     }
 
     /**
