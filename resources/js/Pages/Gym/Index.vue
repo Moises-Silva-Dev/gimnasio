@@ -17,8 +17,8 @@ import FormControl from "@/Components/FormControl.vue";
 import SearchBar from '@/Components/SearchBar.vue'
 
 const props = defineProps({
-    titulo: String,
-    cuentas: Object,
+    title: String,
+    gyms: Object,
     routeName: String,
     filters: Object,
 });
@@ -34,7 +34,7 @@ const destroy = (id) => {
         confirmButtonText: "Sí, eliminar registro!",
     }).then((res) => {
         if (res.isConfirmed) {
-            router.delete(route(`${props.routeName}.destroy`, id));
+            router.delete(route(`${props.routeName}destroy`, id));
         }
     });
 };
@@ -45,12 +45,12 @@ const filters = ref({ ...props.filters })
 
 <template>
     <LayoutMain>
-        <SectionTitleLineWithButton :title="props.titulo" main :icon="mdiApps">
-            <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nueva Cuenta" :icon="mdiPlus" />
+        <SectionTitleLineWithButton :title="props.title" main :icon="mdiApps">
+            <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nuevo Gimnasio" :icon="mdiPlus" />
         </SectionTitleLineWithButton>
 
         <SearchBar v-model="filters.search" :routeName="routeName"
-            placeholder="Buscar cuenta por nombre ..." />
+            placeholder="Buscar cuenta por nombre, correo, colonia, municipio ..." />
 
         <NotificationBar v-if="$page.props.flash.success" color="success" :icon="mdiInformation" :outline="false">
             {{ $page.props.flash.success }}
@@ -60,7 +60,7 @@ const filters = ref({ ...props.filters })
             {{ $page.props.flash.error }}
         </NotificationBar>
 
-        <CardBox v-if="cuentas.data.length < 1">
+        <CardBox v-if="gyms.data.length < 1">
             <CardBoxComponentEmpty />
         </CardBox>
 
@@ -69,17 +69,19 @@ const filters = ref({ ...props.filters })
                 <thead>
                     <tr>
                         <th />
-                        <th class="border p-2">Nombre de la Cuenta</th>
-                        <th class="border p-2">N° Empleados</th> 
-                        <th class="border p-2">Fecha de Creación</th>
+                        <th class="border p-2">Nombre del Gimnasio</th>
+                        <th class="border p-2">Dirección</th>
+                        <th class="border p-2">Telefono</th>
+                        <th class="border p-2">Fecha Creacion</th>
                         <th class="border p-2">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="documento in cuentas.data" :key="documento.id">
+                    <tr v-for="documento in gyms.data" :key="documento.id">
                         <td class="align-items-center"></td>
-                        <td data-label="Nombre Cuenta" class="border p-2">{{ documento.nombre_cuenta }}</td>
-                        <td data-label="N° Empleados" class="border p-2">{{ documento.phone_empleados }}</td> 
+                        <td data-label="Nombre Gimnasio" class="border p-2">{{ documento.name }}</td>
+                        <td data-label="Dirección" class="border p-2">{{ documento.address }}</td> 
+                        <td data-label="Telefono" class="border p-2">{{ documento.phone }}</td> 
                         <td>{{ documento.created_at_formatted.human  }}</td>                        
                         <td class="before:hidden lg:w-1 whitespace-nowrap">
                             <BaseButtons type="justify-start lg:justify-end" no-wrap>
@@ -92,7 +94,7 @@ const filters = ref({ ...props.filters })
                     </tr>
                 </tbody>
             </table>
-            <Pagination :currentPage="cuentas.current_page" :links="cuentas.links" :total="cuentas.last_page" />
+            <Pagination :currentPage="gyms.current_page" :links="gyms.links" :total="gyms.last_page" />
         </CardBox>
     </LayoutMain>
 </template>

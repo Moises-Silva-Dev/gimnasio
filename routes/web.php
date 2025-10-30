@@ -64,12 +64,8 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Auth/RoleSelect');
     })->name('role.select');
 
-
-    // Cuentas
-    Route::resource('cuenta', controller: App\Http\Controllers\CuentaController::class);
-
-    // Gimnasio
-    Route::resource('gimnasio', controller: App\Http\Controllers\GimnasioController::class);
+    // Gym
+    Route::resource('gym', controller: App\Http\Controllers\GymController::class);
 });
 
 require __DIR__ . '/auth.php';
