@@ -15,8 +15,8 @@ import { mdiAccount, mdiAccountCircle, mdiAccountTie, mdiPhone, mdiMail, mdiLock
 
 const props = defineProps({
     title: String,
-    routeName: String,
     gym: Object,
+    routeName: String,
 });
 
 const form = useForm({

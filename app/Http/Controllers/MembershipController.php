@@ -83,15 +83,23 @@ class MembershipController extends Controller {
      */
     public function edit(Membership $membership)
     {
-        //
+        $gyms = Gym::select('id', 'name')->get();
+
+        return Inertia::render('Membership/Edit', [
+            'title' => 'Editar Registro de Membresía',
+            'membership' => $membership,
+            'routeName' => $this->routeName,
+            'gyms' => $gyms,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Membership $membership)
+    public function update(UpdateMembershipRequest $request, Membership $membership)
     {
-        //
+        Membership::where('id', $membership->id)->update($request->validated());
+        return redirect()->route($this->routeName . 'index')->with('success', 'Registro actualizado con éxito.');
     }
 
     /**

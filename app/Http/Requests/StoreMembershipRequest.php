@@ -21,8 +21,8 @@ class StoreMembershipRequest extends FormRequest {
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'duration_days' => 'required|string|max:4',
-            'sessions' => 'required|string|max:4',
-            'price' => 'required|string|max:10',
+            'sessions' => 'required|string',
+            'price' => 'required|string',
         ];
     }
 
@@ -30,8 +30,8 @@ class StoreMembershipRequest extends FormRequest {
         return [
             'name.required' => 'El nombre del gimnasio es requerido',
             'description.required' => 'La dirección del gimnasio es requerido',
-            'duration_days.required' => 'El teléfono del gimnasio es requerido',
-            'sessions.required' => 'El teléfono del gimnasio es requerido',
+            'duration_days.required' => 'El numero de duración de la membresia del gimnasio es requerido',
+            'sessions.required' => 'El numero de sesiones de la membresia es requerido',
             'price.required' => 'El precio de la membresia del gimnasio es requerido',
         ];
     }

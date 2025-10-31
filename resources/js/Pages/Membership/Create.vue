@@ -60,7 +60,7 @@ const handleSubmit = () => {
                 </FormField>
 
                 <FormField :error="form.errors.price" label="Precio">
-                    <FormControl v-model="form.price" type="float" required :icon="mdiPhone" placeholder="Ingresa el precio de la membresia" />
+                    <FormControl v-model="form.price" type="text" required :icon="mdiPhone" placeholder="Ingresa el precio de la membresia" />
                 </FormField>
             </div>
 
