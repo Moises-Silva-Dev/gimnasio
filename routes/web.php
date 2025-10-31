@@ -66,6 +66,9 @@ Route::middleware('auth')->group(function () {
 
     // Gym
     Route::resource('gym', controller: App\Http\Controllers\GymController::class);
+
+    // Memberships
+    Route::resource('memberships', controller: App\Http\Controllers\MembershipController::class);
 });
 
 require __DIR__ . '/auth.php';
