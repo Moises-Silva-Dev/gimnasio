@@ -32,16 +32,19 @@ class UpdateUserRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($this->id)
+                Rule::unique('users')->ignore($this->user)
             ],
             'password' => ['nullable', 'string', 'min:8'],
             'roles' => ['required', 'array'],
             'roles.*' => ['integer', 'exists:roles,id'],
         ];
-        // Validación específica si el rol seleccionado es Ejecutivo (opcional)
-        // if ($this->rol == ID_DEL_ROL_EJECUTIVO) {
-        //     $rules['departamento_id'] = 'required|exists:departamentos,id';
-        // }
+        if (in_array('2', $this->roles)) {
+            $rules['status'] = ['required', 'boolean'];
+            $rules['gym_id'] = ['required', 'exists:gyms,id'];
+        } else {
+            $rules['status'] = ['nullable'];
+            $rules['gym_id'] = ['nullable', 'exists:gyms,id'];
+        }
         return $rules;
     }
     public function attributes(): array

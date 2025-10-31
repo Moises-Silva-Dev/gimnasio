@@ -21,7 +21,10 @@ import {
   mdiOfficeBuilding,
   mdiDumbbell,
   mdiCheckboxMarked,
-  mdiShieldAccount, mdiAccountPlus
+  mdiShieldAccount, 
+  mdiAccountPlus,
+  mdiKey,
+  mdiRefresh
 } from "@mdi/js";
 
 const props = defineProps({
@@ -32,10 +35,8 @@ const props = defineProps({
   departamentos: Array,
 });
 
-// Computed properties seguras
 const safeRoles = computed(() => props.roles || []);
 const safeGyms = computed(() => props.gyms || []);
-const safeDepartamentos = computed(() => props.departamentos || []);
 
 // Computed para verificar si hay roles de miembro seleccionados
 const selectedRoles = computed(() => {
@@ -48,7 +49,6 @@ const hasMemberRole = computed(() => {
   return selectedRoles.value.includes('Member');
 });
 
-// Form con todos los campos necesarios
 const form = useForm({
   name: '',
   last_name: '',
@@ -62,24 +62,33 @@ const form = useForm({
   roles: [],
 });
 
+// Estado para mostrar la contraseña generada
+const showGeneratedPassword = ref(false);
+
 const submit = () => {
-  form.post(route(`${props.routeName}store`), {
-    onSuccess: () => {
-      form.reset();
-    },
-    preserveScroll: true
-  });
+  form.post(route(`${props.routeName}store`))
 };
 
-// Función para manejar selección única de rol si es necesario
+const generatePassword = () => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+  let password = '';
+  for (let i = 0; i < 12; i++) {
+    password += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  form.password = password;
+  showGeneratedPassword.value = true;
+};
+
+const regeneratePassword = () => {
+  generatePassword();
+};
+
+// Selección de roles
 const toggleRole = (roleId) => {
   const index = form.roles.indexOf(roleId);
   if (index > -1) {
     form.roles.splice(index, 1);
   } else {
-    // Para selección única, descomenta esta línea:
-    // form.roles = [roleId];
-    // Para selección múltiple, mantén esta:
     form.roles.push(roleId);
   }
 };
@@ -141,7 +150,6 @@ const toggleRole = (roleId) => {
         </FormField>
       </div>
 
-      <!-- Información de Cuenta -->
       <BaseDivider />
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -155,35 +163,81 @@ const toggleRole = (roleId) => {
         </FormField>
         
         <FormField :error="form.errors.password" label="Contraseña" required>
-          <FormControl
-            v-model="form.password"
-            type="password"
-            placeholder="Mínimo 8 caracteres"
-            :icon="mdiLock"
-          />
+          <div class="space-y-3">
+            <!-- Campo de contraseña -->
+            <FormControl
+              v-model="form.password"
+              type="password"
+              placeholder="Mínimo 8 caracteres"
+              :icon="mdiLock"
+            />
+            
+            <!-- Botones de generación de contraseña -->
+            <div class="flex flex-wrap gap-2">
+              <BaseButton
+                @click="generatePassword"
+                type="button"
+                color="warning"
+                small
+                outline
+                :icon="mdiKey"
+                label="Generar contraseña segura"
+              />
+              
+              <BaseButton
+                v-if="showGeneratedPassword"
+                @click="regeneratePassword"
+                type="button"
+                color="info"
+                small
+                outline
+                :icon="mdiRefresh"
+                label="Regenerar"
+              />
+            </div>
+            
+            <!-- Mostrar contraseña generada -->
+            <div 
+              v-if="showGeneratedPassword && form.password" 
+              class="p-3 bg-green-50 border border-green-200 rounded-lg"
+            >
+              <p class="text-sm font-medium text-green-800 mb-1">
+                ✅ Contraseña generada automáticamente:
+              </p>
+              <div class="flex items-center justify-between">
+                <code class="text-green-700 font-mono text-sm bg-green-100 px-2 py-1 rounded">
+                  {{ form.password }}
+                </code>
+                <span class="text-xs text-green-600">
+                  Copia esta contraseña
+                </span>
+              </div>
+              <p class="text-xs text-green-600 mt-2">
+                <strong>Nota:</strong> Esta contraseña se mostrará solo una vez. Asegúrate de guardarla.
+              </p>
+            </div>
+            
+            <!-- Indicador de fortaleza de contraseña -->
+            <div v-if="form.password && !showGeneratedPassword" class="text-xs">
+              <div 
+                v-if="form.password.length < 8" 
+                class="text-red-600 font-medium"
+              >
+                ⚠ La contraseña debe tener al menos 8 caracteres
+              </div>
+              <div 
+                v-else 
+                class="text-green-600 font-medium"
+              >
+                ✅ Contraseña válida
+              </div>
+            </div>
+          </div>
         </FormField>
       </div>
 
-      <!-- Departamento (si existe) -->
-      <FormField 
-        v-if="safeDepartamentos.length > 0" 
-        label="Departamento" 
-        :error="form.errors.departamento_id"
-      >
-        <FormControl
-          v-model="form.departamento_id"
-          :options="safeDepartamentos"
-          type="select"
-          label-key="nombre"
-          value-key="id"
-          :icon="mdiOfficeBuilding"
-          placeholder="Selecciona un departamento"
-        />                            
-      </FormField>
-
       <BaseDivider />
 
-      <!-- Selección de Roles -->
       <FormField label="Asignar Roles" :error="form.errors.roles">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
           <label 
@@ -205,7 +259,6 @@ const toggleRole = (roleId) => {
           </label>
         </div>
 
-        <!-- Roles seleccionados -->
         <div v-if="form.roles.length > 0" class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
           <p class="text-sm font-medium text-blue-800 mb-2 flex items-center">
             <span class="mdi" :class="mdiShieldAccount"></span>
@@ -265,6 +318,8 @@ const toggleRole = (roleId) => {
             @click="submit" 
             type="submit" 
             color="info"            
+            :loading="form.processing"
+            :disabled="form.processing"
             outline
             label="Guardar Usuario" 
           />
