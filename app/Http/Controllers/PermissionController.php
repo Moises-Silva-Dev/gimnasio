@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 //use App\Models\Permisos;
-use App\Http\Requests\UpdatePermissionRequest;
+use App\Http\Requests\Security\UpdatePermissionRequest;
 use Spatie\Permission\Models\Permission;
-use App\Http\Requests\StorePermisosRequest;
+use App\Http\Requests\Security\StorePermissionsRequest;
 use Inertia\Inertia;
 use App\Models\Module;
 
@@ -49,7 +49,7 @@ class PermissionController extends Controller
         ]);
     }
 
-    public function store(StorePermisosRequest $request)
+    public function store(StorePermissionsRequest $request)
     {
         $permiso = Permission::create([
             'name' => $request->name,

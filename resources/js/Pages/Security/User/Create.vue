@@ -259,6 +259,7 @@ const toggleRole = (roleId) => {
           </label>
         </div>
 
+        <!-- Roles seleccionados -->
         <div v-if="form.roles.length > 0" class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
           <p class="text-sm font-medium text-blue-800 mb-2 flex items-center">
             <span class="mdi" :class="mdiShieldAccount"></span>
@@ -283,7 +284,6 @@ const toggleRole = (roleId) => {
         </div>
       </FormField>
 
-      <!-- Campos específicos para miembros -->
       <div v-if="hasMemberRole" class="space-y-4 mt-6 p-4 bg-gray-50 rounded-lg">
         <h3 class="text-lg font-medium text-gray-900 flex items-center">
           <span class="mdi" :class="mdiDumbbell"></span>
