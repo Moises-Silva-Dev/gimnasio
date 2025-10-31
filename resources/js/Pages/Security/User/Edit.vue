@@ -23,7 +23,8 @@ import {
   mdiCheckboxMarked,
   mdiShieldAccount,
   mdiAccountEdit,
-  mdiKey
+  mdiKey,
+  mdiRefresh
 } from "@mdi/js";
 
 const props = defineProps({
@@ -32,15 +33,12 @@ const props = defineProps({
   roles: Array,
   gyms: Array,
   departamentos: Array,
-  user: Object, // Nuevo prop para el usuario a editar
+  user: Object,
 });
 
-// Computed properties seguras
 const safeRoles = computed(() => props.roles || []);
 const safeGyms = computed(() => props.gyms || []);
-const safeDepartamentos = computed(() => props.departamentos || []);
 
-// Computed para verificar si hay roles de miembro seleccionados
 const selectedRoles = computed(() => {
   return form.roles.map(roleId => 
     safeRoles.value.find(role => role.id === roleId)?.name
@@ -51,48 +49,26 @@ const hasMemberRole = computed(() => {
   return selectedRoles.value.includes('Member');
 });
 
-// Form con todos los campos necesarios - inicializado con datos del usuario
+const showPasswordField = ref(false);
+const showGeneratedPassword = ref(false);
+
 const form = useForm({
   name: props.user?.name || '',
   last_name: props.user?.last_name || '',
   mother_last_name: props.user?.mother_last_name || '',
-  numero: props.user?.numero || '',
+  phone: props.user?.phone || '',
   email: props.user?.email || '',
-  password: '', // Vacío para no cambiar a menos que se especifique
+  password: '', // Vacío 
   departamento_id: props.user?.departamento_id || null,
   gym_id: props.user?.gym_id || null,
-  status: props.user?.status ?? true,
-  roles: props.user?.roles?.map(role => role.id) || [], // Roles actuales del usuario
+  status: Boolean(props.user?.status), // BOOLEAN
+  roles: props.user?.roles?.map(role => role.id) || [],
 });
 
-// Estado para mostrar campo de contraseña
-const showPasswordField = ref(false);
-
-const actualizar = () => {
-  // Si no se cambió la contraseña, remover el campo del form
-  if (!form.password) {
-    form.defaults().password = undefined;
-  }
-  
-  form.put(route(`${props.routeName}update`, props.user?.id), {
-    onSuccess: () => {
-      // No resetear el form en edit
-    },
-    preserveScroll: true
-  });
+const update = () => { 
+  form.put(route(`${props.routeName}update`, props.user?.id))
 };
 
-// Función para manejar selección de roles
-const toggleRole = (roleId) => {
-  const index = form.roles.indexOf(roleId);
-  if (index > -1) {
-    form.roles.splice(index, 1);
-  } else {
-    form.roles.push(roleId);
-  }
-};
-
-// Función para generar contraseña aleatoria
 const generatePassword = () => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
   let password = '';
@@ -101,6 +77,21 @@ const generatePassword = () => {
   }
   form.password = password;
   showPasswordField.value = true;
+  showGeneratedPassword.value = true;
+};
+
+const regeneratePassword = () => {
+  generatePassword();
+};
+
+// Selección de roles
+const toggleRole = (roleId) => {
+  const index = form.roles.indexOf(roleId);
+  if (index > -1) {
+    form.roles.splice(index, 1);
+  } else {
+    form.roles.push(roleId);
+  }
 };
 </script>
 
@@ -117,8 +108,7 @@ const generatePassword = () => {
       {{ $page.props.flash.message }}
     </NotificationBar>
 
-    <CardBox form @submit.prevent="actualizar">
-      <!-- Información Personal en Grid -->
+    <CardBox form @submit.prevent="update">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <FormField :error="form.errors.name" label="Nombre" required>
           <FormControl 
@@ -129,9 +119,9 @@ const generatePassword = () => {
           />
         </FormField>
 
-        <FormField :error="form.errors.numero" label="Número Telefónico" required>
+        <FormField :error="form.errors.phone" label="Número Telefónico" required>
           <FormControl
-            v-model="form.numero"
+            v-model="form.phone"
             type="tel"
             placeholder="7771234567"
             maxlength="10"
@@ -160,7 +150,6 @@ const generatePassword = () => {
         </FormField>
       </div>
 
-      <!-- Información de Cuenta -->
       <BaseDivider />
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -174,8 +163,9 @@ const generatePassword = () => {
         </FormField>
         
         <FormField label="Contraseña">
-          <div class="space-y-2">
-            <div class="flex gap-2">
+          <div class="space-y-3">
+            <!-- Botones para gestionar contraseña -->
+            <div class="flex flex-wrap gap-2">
               <BaseButton
                 @click="showPasswordField = !showPasswordField"
                 type="button"
@@ -183,54 +173,86 @@ const generatePassword = () => {
                 small
                 outline
                 :icon="mdiKey"
-                label="Cambiar contraseña"
+                :label="showPasswordField ? 'Ocultar campo contraseña' : 'Cambiar contraseña'"
               />
+              
               <BaseButton
                 @click="generatePassword"
                 type="button"
                 color="warning"
                 small
                 outline
-                label="Generar automática"
+                :icon="mdiKey"
+                label="Generar nueva contraseña"
               />
             </div>
             
-            <FormControl
-              v-if="showPasswordField"
-              v-model="form.password"
-              type="password"
-              placeholder="Dejar vacío para mantener la actual"
-              :icon="mdiLock"
-              :error="form.errors.password"
-            />
-            
-            <p v-if="showPasswordField && form.password" class="text-sm text-green-600">
-              Nueva contraseña establecida
-            </p>
+            <div v-if="showPasswordField" class="space-y-3">
+              <FormControl
+                v-model="form.password"
+                type="password"
+                placeholder="Dejar vacío para mantener la contraseña actual"
+                :icon="mdiLock"
+                :error="form.errors.password"
+              />
+              
+              <BaseButton
+                v-if="form.password && showGeneratedPassword"
+                @click="regeneratePassword"
+                type="button"
+                color="info"
+                small
+                outline
+                :icon="mdiRefresh"
+                label="Regenerar contraseña"
+              />
+              
+              <div 
+                v-if="showGeneratedPassword && form.password" 
+                class="p-3 bg-green-50 border border-green-200 rounded-lg"
+              >
+                <p class="text-sm font-medium text-green-800 mb-1">
+                  ✅ Nueva contraseña generada:
+                </p>
+                <div class="flex items-center justify-between">
+                  <code class="text-green-700 font-mono text-sm bg-green-100 px-2 py-1 rounded">
+                    {{ form.password }}
+                  </code>
+                  <span class="text-xs text-green-600">
+                    Copia esta contraseña
+                  </span>
+                </div>
+                <p class="text-xs text-green-600 mt-2">
+                  <strong>Nota:</strong> Esta contraseña se mostrará solo una vez. Asegúrate de guardarla.
+                </p>
+              </div>
+              
+              <div v-if="form.password && !showGeneratedPassword" class="text-xs">
+                <div 
+                  v-if="form.password.length < 8" 
+                  class="text-red-600 font-medium"
+                >
+                  ⚠ La contraseña debe tener al menos 8 caracteres
+                </div>
+                <div 
+                  v-else 
+                  class="text-green-600 font-medium"
+                >
+                  ✅ Contraseña válida
+                </div>
+              </div>
+              
+              <p v-if="!form.password" class="text-xs text-gray-500">
+                ⓘ Deja este campo vacío si no deseas cambiar la contraseña actual.
+              </p>
+            </div>
           </div>
         </FormField>
       </div>
 
-      <!-- Departamento (si existe) -->
-      <FormField 
-        v-if="safeDepartamentos.length > 0" 
-        label="Departamento" 
-        :error="form.errors.departamento_id"
-      >
-        <FormControl
-          v-model="form.departamento_id"
-          :options="safeDepartamentos"
-          type="select"
-          label-key="nombre"
-          value-key="id"
-          :icon="mdiOfficeBuilding"
-          placeholder="Selecciona un departamento"
-        />                            
-      </FormField>
-
       <BaseDivider />
 
-      <!-- Selección de Roles -->
+
       <FormField label="Asignar Roles" :error="form.errors.roles">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
           <label 
@@ -251,7 +273,7 @@ const generatePassword = () => {
             </div>
           </label>
         </div>
-
+                
         <!-- Roles seleccionados -->
         <div v-if="form.roles.length > 0" class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
           <p class="text-sm font-medium text-blue-800 mb-2 flex items-center">
@@ -277,7 +299,6 @@ const generatePassword = () => {
         </div>
       </FormField>
 
-      <!-- Campos específicos para miembros -->
       <div v-if="hasMemberRole" class="space-y-4 mt-6 p-4 bg-gray-50 rounded-lg">
         <h3 class="text-lg font-medium text-gray-900 flex items-center">
           <span class="mdi" :class="mdiDumbbell"></span>
@@ -309,7 +330,7 @@ const generatePassword = () => {
       <template #footer>
         <BaseButtons>
           <BaseButton 
-            @click="actualizar" 
+            @click="update" 
             type="submit" 
             color="info" 
             :loading="form.processing"

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\Security\StoreUserRequest;
+use App\Http\Requests\Security\UpdateUserRequest;
 use App\Models\Gym;
 use App\Notifications\CredentialsNotification;
 use Spatie\Permission\Models\Role;
