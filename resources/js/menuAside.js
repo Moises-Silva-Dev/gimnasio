@@ -86,6 +86,12 @@ export default [
         icon: mdiTrademark,
         role: "Admin",
       },
+      {
+        href:"/membership",
+        label: "Membresías",
+        icon: mdiCertificate,
+        role: "Admin",
+      }
     ],
   } 
 ];

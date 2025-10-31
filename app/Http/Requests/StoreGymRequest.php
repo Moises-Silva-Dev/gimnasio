@@ -17,9 +17,9 @@ class StoreGymRequest extends FormRequest {
         $isCreate = $this->isMethod('post'); // Detectar si es creación
 
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:10'],
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:10',
         ];
     }
 

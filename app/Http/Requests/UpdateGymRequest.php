@@ -17,9 +17,9 @@ class UpdateGymRequest extends FormRequest {
         $isUpdate = $this->isMethod('put'); // Detectar si es actualización
 
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:10'],
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:10',
         ];
     }
 
