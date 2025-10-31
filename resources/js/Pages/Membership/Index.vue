@@ -50,7 +50,7 @@ const filters = ref({ ...props.filters })
         </SectionTitleLineWithButton>
 
         <SearchBar v-model="filters.search" :routeName="routeName"
-            placeholder="Buscar cuenta por nombre, correo, colonia, municipio ..." />
+            placeholder="Buscar cuenta por nombre del gimnasio, tipo de mebresia y descripción ..." />
 
         <NotificationBar v-if="$page.props.flash.success" color="success" :icon="mdiInformation" :outline="false">
             {{ $page.props.flash.success }}

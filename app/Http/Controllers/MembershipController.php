@@ -52,15 +52,22 @@ class MembershipController extends Controller {
      */
     public function create()
     {
-        //
+        $gyms = Gym::select('id', 'name')->get();
+
+        return Inertia::render('Membership/Create', [
+            'title' => 'Crear Registro de Membresía',
+            'routeName' => $this->routeName,
+            'gyms' => $gyms,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMembershipRequest $request)
     {
-        //
+        Membership::create($request->validated());
+        return redirect()->route($this->routeName . 'index')->with('success', 'Registro creado con éxito.');
     }
 
     /**
