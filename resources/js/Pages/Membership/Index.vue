@@ -18,7 +18,7 @@ import SearchBar from '@/Components/SearchBar.vue'
 
 const props = defineProps({
     title: String,
-    gyms: Object,
+    memberships: Object,
     routeName: String,
     filters: Object,
 });
@@ -46,12 +46,12 @@ const filters = ref({ ...props.filters })
 <template>
     <LayoutMain>
         <SectionTitleLineWithButton :title="props.title" main :icon="mdiApps">
-            <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nuevo Gimnasio"
+            <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nueva Membresia"
                 :icon="mdiPlus" />
         </SectionTitleLineWithButton>
 
         <SearchBar v-model="filters.search" :routeName="routeName"
-            placeholder="Buscar cuenta por nombre, correo, colonia, municipio ..." />
+            placeholder="Buscar cuenta por nombre del gimnasio, tipo de mebresia y descripción ..." />
 
         <NotificationBar v-if="$page.props.flash.success" color="success" :icon="mdiInformation" :outline="false">
             {{ $page.props.flash.success }}
@@ -61,7 +61,7 @@ const filters = ref({ ...props.filters })
             {{ $page.props.flash.error }}
         </NotificationBar>
 
-        <CardBox v-if="gyms.data.length < 1">
+        <CardBox v-if="memberships.data.length < 1">
             <CardBoxComponentEmpty />
         </CardBox>
 
@@ -71,18 +71,22 @@ const filters = ref({ ...props.filters })
                     <tr>
                         <th />
                         <th class="border p-2">Nombre del Gimnasio</th>
-                        <th class="border p-2">Dirección</th>
-                        <th class="border p-2">Telefono</th>
-                        <th class="border p-2">Fecha Creacion</th>
+                        <th class="border p-2">Tipo de Membresia</th>
+                        <th class="border p-2">Descripción</th>
+                        <th class="border p-2">Duración</th>
+                        <th class="border p-2">Precio</th>
+                        <th class="border p-2">Fecha de Creación</th>
                         <th class="border p-2">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="document in gyms.data" :key="document.id">
+                    <tr v-for="document in memberships.data" :key="document.id">
                         <td class="align-items-center"></td>
+                        <td data-label="Nombre Gimnasio" class="border p-2">{{ document.gyms.name }}</td>
                         <td data-label="Nombre Gimnasio" class="border p-2">{{ document.name }}</td>
-                        <td data-label="Dirección" class="border p-2">{{ document.address }}</td>
-                        <td data-label="Telefono" class="border p-2">{{ document.phone }}</td>
+                        <td data-label="Dirección" class="border p-2">{{ document.description }}</td>
+                        <td data-label="Telefono" class="border p-2">{{ document.duration_days }}</td>
+                        <td data-label="Precio" class="border p-2">{{ document.price }}</td>
                         <td>{{ document.created_at_formatted.human }}</td>
                         <td class="before:hidden lg:w-1 whitespace-nowrap">
                             <BaseButtons type="justify-start lg:justify-end" no-wrap>
@@ -95,7 +99,8 @@ const filters = ref({ ...props.filters })
                     </tr>
                 </tbody>
             </table>
-            <Pagination :currentPage="gyms.current_page" :links="gyms.links" :total="gyms.last_page" />
+            <Pagination :currentPage="memberships.current_page" :links="memberships.links"
+                :total="memberships.last_page" />
         </CardBox>
     </LayoutMain>
 </template>
