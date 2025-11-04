@@ -80,20 +80,20 @@ const filters = ref({ ...props.filters })
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="document in memberships.data" :key="document.id">
+                    <tr v-for="item in memberships.data" :key="item.id">
                         <td class="align-items-center"></td>
-                        <td data-label="Nombre Gimnasio" class="border p-2">{{ document.gyms.name }}</td>
-                        <td data-label="Nombre Gimnasio" class="border p-2">{{ document.name }}</td>
-                        <td data-label="Dirección" class="border p-2">{{ document.description }}</td>
-                        <td data-label="Telefono" class="border p-2">{{ document.duration_days }}</td>
-                        <td data-label="Precio" class="border p-2">{{ document.price }}</td>
-                        <td>{{ document.created_at_formatted.human }}</td>
+                        <td data-label="Nombre Gimnasio" class="border p-2">{{ item.gyms.name }}</td>
+                        <td data-label="Nombre Gimnasio" class="border p-2">{{ item.name }}</td>
+                        <td data-label="Dirección" class="border p-2">{{ item.description }}</td>
+                        <td data-label="Telefono" class="border p-2">{{ item.duration_days }}</td>
+                        <td data-label="Precio" class="border p-2">{{ item.price }}</td>
+                        <td>{{ item.created_at_formatted.human }}</td>
                         <td class="before:hidden lg:w-1 whitespace-nowrap">
                             <BaseButtons type="justify-start lg:justify-end" no-wrap>
                                 <BaseButton color="info" :icon="mdiTagEdit" small
-                                    :href="route(`${props.routeName}edit`, document.id)" />
+                                    :href="route(`${props.routeName}edit`, item.id)" />
                                 <BaseButton color="danger" :icon="mdiDeleteOutline" small
-                                    @click="destroy(document.id)" />
+                                    @click="destroy(item.id)" />
                             </BaseButtons>
                         </td>
                     </tr>
