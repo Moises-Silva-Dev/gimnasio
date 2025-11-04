@@ -78,18 +78,18 @@ const filters = ref({ ...props.filters })
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="document in gyms.data" :key="document.id">
+                    <tr v-for="item in gyms.data" :key="item.id">
                         <td class="align-items-center"></td>
-                        <td data-label="Nombre Gimnasio" class="border p-2">{{ document.name }}</td>
-                        <td data-label="Dirección" class="border p-2">{{ document.address }}</td>
-                        <td data-label="Telefono" class="border p-2">{{ document.phone }}</td>
-                        <td>{{ document.created_at_formatted.human }}</td>
+                        <td data-label="Nombre Gimnasio" class="border p-2">{{ item.name }}</td>
+                        <td data-label="Dirección" class="border p-2">{{ item.address }}</td>
+                        <td data-label="Telefono" class="border p-2">{{ item.phone }}</td>
+                        <td>{{ item.created_at_formatted.human }}</td>
                         <td class="before:hidden lg:w-1 whitespace-nowrap">
                             <BaseButtons type="justify-start lg:justify-end" no-wrap>
                                 <BaseButton color="info" :icon="mdiTagEdit" small
-                                    :href="route(`${props.routeName}edit`, document.id)" />
+                                    :href="route(`${props.routeName}edit`, item.id)" />
                                 <BaseButton color="danger" :icon="mdiDeleteOutline" small
-                                    @click="destroy(document.id)" />
+                                    @click="destroy(item.id)" />
                             </BaseButtons>
                         </td>
                     </tr>
