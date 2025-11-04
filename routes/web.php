@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\GymController;
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\ModuleController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
@@ -39,36 +40,24 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Seguridad
-    // Route::resource('module', ModuleController::class)->parameters(['module' => 'module']);
-    //Route::resource('permissions', PermissionController::class)->names('permissions');
-    //Route::resource('perfiles', PerfilesController::class)->parameters(['perfiles' => 'perfiles']);
-
-    //Usuarios
-    Route::resource('users', controller: UserController::class);
-    Route::get('/perfil', [UserController::class, 'perfil'])->name('usuarios.perfil');
-    Route::post('actualizarPerfil', [UserController::class, 'updatePerfil'])->name('usuarios.update-perfil');  
-
-  
-
+    //users
+    Route::resource('users', controller: UserController::class);   
     Route::resource('roles', RoleController::class)->names('roles');
     Route::resource('permissions', PermissionController::class);
     Route::resource('modules', ModuleController::class);
 
-    // Agregar esta ruta dentro del grupo de rutas autenticadas
     Route::post('/user/set-active-role', [AuthenticatedSessionController::class, 'setActiveRole'])
         ->name('user.set-active-role');
 
-    // Ruta para la vista de selección de rol después del login
     Route::get('/select-role', function () {
         return Inertia::render('Auth/RoleSelect');
     })->name('role.select');
 
     // Gym
-    Route::resource('gym', controller: App\Http\Controllers\GymController::class);
+    Route::resource('gym', controller: GymController::class);
 
     // Memberships
-    Route::resource('membership', controller: App\Http\Controllers\MembershipController::class);
+    Route::resource('membership', controller: MembershipController::class);
 });
 
 require __DIR__ . '/auth.php';

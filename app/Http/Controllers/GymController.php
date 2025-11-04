@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Gym;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreGymRequest;
-use App\Http\Requests\UpdateGymRequest;
+use App\Http\Requests\Gym\StoreGymRequest;
+use App\Http\Requests\Gym\UpdateGymRequest;
 use Inertia\Response;
 use Inertia\Inertia;
 

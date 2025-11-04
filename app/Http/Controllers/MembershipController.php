@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Membership;
 use App\Models\Gym;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreMembershipRequest;
-use App\Http\Requests\UpdateMembershipRequest;
+use App\Http\Requests\Membership\StoreMembershipRequest;
+use App\Http\Requests\Membership\UpdateMembershipRequest;
 use Inertia\Response;
 use Inertia\Inertia;
 

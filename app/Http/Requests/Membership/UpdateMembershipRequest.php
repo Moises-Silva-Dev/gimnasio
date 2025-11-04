@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Membership;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreMembershipRequest extends FormRequest
+class UpdateMembershipRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class StoreMembershipRequest extends FormRequest
     {
         return [
             'gym_id' => ['required', 'integer', 'exists:gyms,id'],
-            'name' => ['required', 'string', 'max:255', Rule::unique('memberships')->where('gym_id', $this->gym_id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('memberships')->where('gym_id', $this->gym_id)->ignore($this->membership->id)],
             'description' => ['required', 'string', 'max:255'],
             'duration_days' => ['required', 'integer', 'min:1', 'max:9999'],
             'sessions' => ['required', 'integer', 'min:1'],

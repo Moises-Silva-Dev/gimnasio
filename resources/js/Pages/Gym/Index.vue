@@ -5,15 +5,12 @@ import BaseButton from '@/Components/BaseButton.vue';
 import BaseButtons from "@/Components/BaseButtons.vue";
 import SectionTitleLineWithButton from "@/Components/SectionTitleLineWithButton.vue";
 import Swal from "sweetalert2";
-import { mdiTagEdit, mdiDeleteOutline, mdiInformation, mdiMagnify, mdiFilterVariant, mdiPlus, mdiApps } from "@mdi/js";
+import { mdiTagEdit, mdiDeleteOutline, mdiInformation, mdiPlus, mdiDumbbell } from "@mdi/js";
 import Pagination from '@/Shared/Pagination.vue';
 import CardBoxComponentEmpty from "@/Components/CardBoxComponentEmpty.vue";
 import CardBox from "@/Components/CardBox.vue";
 import NotificationBar from "@/Components/NotificationBar.vue";
-import moment from "moment";
-import { ref, watch } from 'vue';
-import FormField from "@/Components/FormField.vue";
-import FormControl from "@/Components/FormControl.vue";
+import { ref} from 'vue';
 import SearchBar from '@/Components/SearchBar.vue'
 
 const props = defineProps({
@@ -45,7 +42,7 @@ const filters = ref({ ...props.filters })
 
 <template>
     <LayoutMain>
-        <SectionTitleLineWithButton :title="props.title" main :icon="mdiApps">
+        <SectionTitleLineWithButton :title="props.title" main :icon="mdiDumbbell">
             <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nuevo Gimnasio"
                 :icon="mdiPlus" />
         </SectionTitleLineWithButton>
