@@ -23,7 +23,7 @@ const isLoading = ref(true)
 onMounted(() => {
   setTimeout(() => {
     isLoading.value = false
-  }, 3000) // Puedes reducir esto a 1500ms (1.5s) para que sea más rápido
+  }, 800) // Puedes reducir esto a 1500ms (1.5s) para que sea más rápido
 })
 // ----------------------------------------
 
