@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Security;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePermisosRequest extends FormRequest
+class StorePermissionsRequest extends FormRequest
 {
     protected string $tableName = 'permissions';
     protected string $param     = 'permiso';
