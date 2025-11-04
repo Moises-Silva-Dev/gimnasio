@@ -13,45 +13,29 @@ import {
   mdiLaptop,        
   mdiServer,          
   mdiClipboardFlow,    
-  mdiCertificate,     
+  mdiCertificate, 
+  mdiDumbbell     
 } from "@mdi/js";
 
 export default [
-  // {
-  //     href: "/dashboard",
-  //     to: "/dashboard",
-  //     icon: mdiViewDashboard,
-  //     label: "Dashboard",
-  //     role: "Admin" //Vistas 
-  // },
-
-  {
+ {
+    //href:"/dashboard",
+    route:"dashboard",
     label: "Dashboard",
     icon: mdiViewDashboard,
     role: "Admin",
-    menu: [
-      {
-          href:"/dashboard",
-          label: "Inventario",
-          icon: mdiClipboardList,
-          role: "Admin",
-      }, 
-    
-      
-    
-    ],
-  },
-
+  },  
+//example for submenu
   {
     label: "Seguridad",
     icon: mdiShieldKey,
     role: "Admin",
     menu: [
       {
-          href:"/users",
-          label: "Usuarios",
-          icon: mdiAccountMultiple,
-          role: "Admin",
+        route:"users.index",
+        label: "Usuarios",
+        icon: mdiAccountMultiple,
+        role: "Admin",
       }, 
       {
         route: "roles.index",
@@ -74,24 +58,18 @@ export default [
       }, 
     ],
   },
+ {
+  route: "gym.index",
+  icon: mdiDumbbell ,
+  label: "Gymnasios",
+  role: "Admin" 
+},
+{
+  route:"membership.index",
+  label: "Membresías",
+  icon: mdiCertificate,
+  role: "Admin",
+  },
 
-  {
-    label: "Areas",
-    icon: mdiOfficeBuilding,
-    role: "Admin",
-    menu: [
-      {
-        href:"/gym",
-        label: "Gimnasios",
-        icon: mdiTrademark,
-        role: "Admin",
-      },
-      {
-        href:"/membership",
-        label: "Membresías",
-        icon: mdiCertificate,
-        role: "Admin",
-      }
-    ],
-  } 
+  //View for memberships ->
 ];

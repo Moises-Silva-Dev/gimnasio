@@ -1,17 +1,14 @@
 <script setup>
-import { ref, defineProps, computed } from 'vue';
+import {  defineProps } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import LayoutMain from '@/Layouts/LayoutMain.vue';
 import FormField from "@/Components/FormField.vue";
 import FormControl from "@/Components/FormControl.vue";
-import FormControlCheckbox from "@/Components/FormControlCheckbox.vue";
-import BaseDivider from "@/Components/BaseDivider.vue";
 import BaseButton from "@/Components/BaseButton.vue";
 import BaseButtons from "@/Components/BaseButtons.vue";
 import SectionTitleLineWithButton from "@/Components/SectionTitleLineWithButton.vue";
 import CardBox from "@/Components/CardBox.vue";
-import NotificationBar from "@/Components/NotificationBar.vue";
-import { mdiWalletMembership, mdiTextBoxEdit, mdiSunClock, mdiGoogleClassroom, mdiCash, mdiOfficeBuilding } from "@mdi/js";
+import { mdiWalletMembership, mdiTextBoxEdit, mdiSunClock, mdiGoogleClassroom, mdiCash, mdiOfficeBuilding, mdiCreditCardEdit } from "@mdi/js";
 
 const props = defineProps({
     title: String,
@@ -37,7 +34,7 @@ const handleSubmit = () => {
 
 <template>
     <LayoutMain :title="title">
-        <SectionTitleLineWithButton :title="props.title" main />
+        <SectionTitleLineWithButton :title="props.title" main :icon="mdiCreditCardEdit"/>
         <CardBox form @submit.prevent="handleSubmit" enctype="multipart/form-data">
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <FormField :error="form.errors.gym_id" label="Gimnasio">

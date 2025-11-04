@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Gym;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGymRequest extends FormRequest
+class StoreGymRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,9 @@ class UpdateGymRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('gyms')->ignore($this->gym->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('gyms', 'name')],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'numeric', 'digits:10', Rule::unique('gyms', 'phone')->ignore($this->gym->id)],
+            'phone' => ['required', 'numeric', 'digits:10', Rule::unique('gyms', 'phone')],
         ];
     }
 
@@ -33,7 +33,7 @@ class UpdateGymRequest extends FormRequest
     {
         return [
             'name.required' => 'El nombre del gimnasio es requerido',
-            'name.unique' => 'Ya existe un gimnasio con este nombre',
+            'name.unique' => 'El nombre del gimnasio ya existe',
             'address.required' => 'La dirección del gimnasio es requerido',
             'phone.required' => 'El teléfono del gimnasio es requerido',
             'phone.numeric' => 'El teléfono del gimnasio debe ser un número',
