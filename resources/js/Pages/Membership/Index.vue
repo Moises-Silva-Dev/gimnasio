@@ -46,7 +46,8 @@ const filters = ref({ ...props.filters })
 <template>
     <LayoutMain>
         <SectionTitleLineWithButton :title="props.title" main :icon="mdiApps">
-            <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nuevo Gimnasio" :icon="mdiPlus" />
+            <BaseButton :href="route(`${props.routeName}create`)" color="warning" label="Registrar Nueva Membresia"
+                :icon="mdiPlus" />
         </SectionTitleLineWithButton>
 
         <SearchBar v-model="filters.search" :routeName="routeName"
@@ -79,26 +80,27 @@ const filters = ref({ ...props.filters })
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="documento in memberships.data" :key="documento.id">
+                    <tr v-for="document in memberships.data" :key="document.id">
                         <td class="align-items-center"></td>
-                        <td data-label="Nombre Gimnasio" class="border p-2">{{ documento.gyms.name }}</td>
-                        <td data-label="Nombre Gimnasio" class="border p-2">{{ documento.name }}</td>
-                        <td data-label="Dirección" class="border p-2">{{ documento.description }}</td> 
-                        <td data-label="Telefono" class="border p-2">{{ documento.duration_days }}</td> 
-                        <td data-label="Precio" class="border p-2">{{ documento.price }}</td>
-                        <td>{{ documento.created_at_formatted.human  }}</td>                        
+                        <td data-label="Nombre Gimnasio" class="border p-2">{{ document.gyms.name }}</td>
+                        <td data-label="Nombre Gimnasio" class="border p-2">{{ document.name }}</td>
+                        <td data-label="Dirección" class="border p-2">{{ document.description }}</td>
+                        <td data-label="Telefono" class="border p-2">{{ document.duration_days }}</td>
+                        <td data-label="Precio" class="border p-2">{{ document.price }}</td>
+                        <td>{{ document.created_at_formatted.human }}</td>
                         <td class="before:hidden lg:w-1 whitespace-nowrap">
                             <BaseButtons type="justify-start lg:justify-end" no-wrap>
                                 <BaseButton color="info" :icon="mdiTagEdit" small
-                                    :href="route(`${props.routeName}edit`, documento.id)" />
+                                    :href="route(`${props.routeName}edit`, document.id)" />
                                 <BaseButton color="danger" :icon="mdiDeleteOutline" small
-                                    @click="destroy(documento.id)" />
+                                    @click="destroy(document.id)" />
                             </BaseButtons>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <Pagination :currentPage="memberships.current_page" :links="memberships.links" :total="memberships.last_page" />
+            <Pagination :currentPage="memberships.current_page" :links="memberships.links"
+                :total="memberships.last_page" />
         </CardBox>
     </LayoutMain>
 </template>
