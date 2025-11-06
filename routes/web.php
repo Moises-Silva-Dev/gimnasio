@@ -8,6 +8,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserMembershipController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,10 +42,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     //users
-    Route::resource('users', controller: UserController::class);   
+    Route::resource('users', controller: UserController::class);
     Route::resource('roles', RoleController::class)->names('roles');
     Route::resource('permissions', PermissionController::class);
     Route::resource('modules', ModuleController::class);
+
+    // User Memberships
+    Route::resource('user-memberships', UserMembershipController::class);
+    Route::post('/user-memberships/{userMembership}/decrement-session', [UserMembershipController::class, 'decrementSession'])
+        ->name('user-memberships.decrement-session');
+    Route::post('/user-memberships/{userMembership}/cancel', [UserMembershipController::class, 'cancel'])
+        ->name('user-memberships.cancel');
 
     Route::post('/user/set-active-role', [AuthenticatedSessionController::class, 'setActiveRole'])
         ->name('user.set-active-role');

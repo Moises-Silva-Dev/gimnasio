@@ -3,18 +3,18 @@ import {
   mdiViewModule,
   mdiShieldKey,
   mdiShapeOutline,
-  mdiViewDashboard, 
-  mdiAccountMultiple , 
+  mdiViewDashboard,
+  mdiAccountMultiple ,
   mdiKeyChain ,
-  mdiOfficeBuilding,         
-  mdiTrademark,       
-  mdiShieldAccount,    
-  mdiClipboardList,       
-  mdiLaptop,        
-  mdiServer,          
-  mdiClipboardFlow,    
-  mdiCertificate, 
-  mdiDumbbell     
+  mdiOfficeBuilding,
+  mdiTrademark,
+  mdiShieldAccount,
+  mdiClipboardList,
+  mdiLaptop,
+  mdiServer,
+  mdiClipboardFlow,
+  mdiCertificate,
+  mdiDumbbell
 } from "@mdi/js";
 
 export default [
@@ -24,7 +24,7 @@ export default [
     label: "Dashboard",
     icon: mdiViewDashboard,
     role: "Admin",
-  },  
+  },
 //example for submenu
   {
     label: "Seguridad",
@@ -36,14 +36,14 @@ export default [
         label: "Usuarios",
         icon: mdiAccountMultiple,
         role: "Admin",
-      }, 
+      },
       {
         route: "roles.index",
         label: "Roles",
         icon: mdiShieldAccount,
         role: "Admin",
       },
-      
+
       {
         route: "modules.index",
         label: "Módulos",
@@ -55,21 +55,27 @@ export default [
         label: "Permisos",
         icon: mdiKeyChain,
         role: "Admin",
-      }, 
+      },
     ],
   },
  {
   route: "gym.index",
   icon: mdiDumbbell ,
   label: "Gymnasios",
-  role: "Admin" 
+  role: "Admin"
 },
 {
   route:"membership.index",
   label: "Membresías",
   icon: mdiCertificate,
   role: "Admin",
-  },
+},
+{
+    route:"user-memberships.index",
+    label: "Membresías de Usuarios",
+    icon: mdiClipboardFlow,
+    role: "Admin",
+},
 
   //View for memberships ->
 ];

@@ -122,4 +122,29 @@ class User extends Authenticatable
     {
         return $this->textFormatDate($this->created_at);
     }
+
+    public function memberships()
+    {
+        return $this->hasMany(UserMembership::class);
+    }
+
+    public function activeMembership()
+    {
+        return $this->hasOne(UserMembership::class)
+            ->where('status', 'active')
+            ->where('end_date', '>=', now())
+            ->where('remaining_sessions', '>', 0)
+            ->latest();
+    }
+
+    public function hasActiveMembership()
+    {
+        return $this->activeMembership()->exists();
+    }
+
+    public function gym()
+    {
+        return $this->belongsTo(Gym::class);
+    }
+
 }

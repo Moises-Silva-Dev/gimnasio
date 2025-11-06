@@ -16,7 +16,12 @@ class Kernel extends ConsoleKernel
 
         // Ejecutar el comando todos los días a las 8:30 AM
         // $schedule->command('documents:send-licitacion-reminder')->dailyAt('08:30');
-  
+
+        // Resetear sesiones diarias a las 00:01 todos los días
+        $schedule->command('memberships:reset-sessions')
+            ->dailyAt('00:01')
+            ->timezone('America/Mexico_City');
+
     }
 
     /**
