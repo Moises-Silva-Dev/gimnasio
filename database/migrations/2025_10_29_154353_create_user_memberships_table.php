@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_memberships', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gym_id')->constrained()->onDelete('cascade');
+            $table->foreignId(column: 'gym_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('membership_id')->constrained()->onDelete('cascade');
             $table->foreignId('payment_id')->nullable()->constrained('payments')->onDelete('set null');
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->decimal('amount_paid', 8, 2)->default(0);
             $table->enum('status', ['active', 'expired', 'pending'])->default('pending');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null'); // quien la creó
             $table->timestamps();
         });
     }
