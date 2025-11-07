@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\UserMembership;
 
+use App\Models\UserMembership;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class StoreUserMembershipRequest extends FormRequest
 {
@@ -32,10 +34,32 @@ class StoreUserMembershipRequest extends FormRequest
             'status' => 'required|in:active,expired,pending',
         ];
     }
-     public function messages(): array
+
+    /**
+     * Configure the validator instance.
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function ($validator) {
+            // Verificar si el usuario ya tiene una membresía activa o pendiente
+            $hasActiveMembership = UserMembership::where('user_id', $this->user_id)
+                ->where('gym_id', $this->gym_id)
+                ->whereIn('status', ['active', 'pending'])
+                ->exists();
+
+            if ($hasActiveMembership) {
+                $validator->errors()->add(
+                    'user_id',
+                    'Este usuario ya tiene una membresía activa o pendiente en este gimnasio. Solo se puede crear una nueva membresía si la actual está expirada o cancelada.'
+                );
+            }
+        });
+    }
+
+    public function messages(): array
     {
         return [
-           'gym_id.required' => 'Debe seleccionar un gimnasio.',
+            'gym_id.required' => 'Debe seleccionar un gimnasio.',
             'gym_id.exists' => 'El gimnasio seleccionado no existe.',
 
             'user_id.required' => 'Debe seleccionar el usuario al que pertenece la membresía.',

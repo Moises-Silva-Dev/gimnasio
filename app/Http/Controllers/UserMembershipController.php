@@ -9,16 +9,15 @@ use App\Models\Membership;
 use App\Models\User;
 use App\Models\UserMembership;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class UserMembershipController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     private string $routeName;
     private string $module;
     private string $source;
+
     public function __construct()
     {
         $this->routeName = 'user-memberships.';
@@ -30,147 +29,184 @@ class UserMembershipController extends Controller
         $this->middleware("permission:{$this->module}.update")->only(['edit', 'update']);
         $this->middleware("permission:{$this->module}.delete")->only(['destroy']);
     }
+
     public function index(Request $request)
     {
-        $query = UserMembership::with(['gym', 'user', 'membership', 'payment', 'createdBy']);
+        $query = UserMembership::with(['gym', 'user', 'membership.gyms', 'payment', 'createdBy']);
+
         if ($request->filled('search')) {
             $query->whereHas('user', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('phone', 'like', '%' . $request->search . '%');
             });
         }
-        $userMemberships = $query->orderBy('id', 'desc')->paginate(8)->withQueryString();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $userMemberships = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
 
         return Inertia::render("{$this->source}Index", [
             'title' => 'Lista de Membresías de Usuarios',
             'userMemberships' => $userMemberships,
             'routeName' => $this->routeName,
-            'filters' => $request->only(['search']),
+            'filters' => $request->only(['search', 'status']),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render("{$this->source}Create", [
             'title' => 'Crear Membresía de Usuario',
             'routeName' => $this->routeName,
-            'users' => User::select('id', 'name', 'email', 'gym_id')->get(), // ← Agregar esto
-            'memberships' => Membership::select('id', 'name', 'price', 'duration_days','gym_id')->get(),
+            'memberships' => Membership::select('id', 'name', 'price', 'duration_days', 'gym_id', 'sessions')->get(),
             'gyms' => Gym::orderBy('name')->select('id', 'name')->get(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserMembershipRequest  $request)
+    public function store(StoreUserMembershipRequest $request)
     {
-        UserMembership::create($request->validated());
-        return redirect()->route("{$this->routeName}index")
-            ->with('success', 'Membresía de usuario creada con éxito.');
+        try {
+            UserMembership::create($request->validated());
+
+            return redirect()->route("{$this->routeName}index")
+                ->with('success', 'Membresía de usuario creada con éxito.');
+        } catch (\Exception $e) {
+            Log::error('Error al crear membresía:', ['error' => $e->getMessage()]);
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error al crear la membresía: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(UserMembership $userMembership)
     {
-        //
+        $userMembership->load(['gym', 'user', 'membership.gyms', 'payment', 'createdBy']);
+
+        return Inertia::render("{$this->source}Show", [
+            'title' => 'Detalles de Membresía',
+            'routeName' => $this->routeName,
+            'userMembership' => $userMembership,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(UserMembership $userMembership)
     {
+        $userMembership->load(['user', 'membership', 'gym']);
+
         return Inertia::render("{$this->source}Edit", [
             'title' => 'Editar Membresía de Usuario',
             'routeName' => $this->routeName,
-            //'userMembership' => $userMembership,
-            'users' => User::select('id', 'name')->get(),
-            'memberships' => Membership::select('id', 'name', 'price')->get(),
+            'userMembership' => $userMembership,
+            'users' => User::select('id', 'name', 'email')->get(),
+            'memberships' => Membership::select('id', 'name', 'price', 'duration_days', 'gym_id')->get(),
             'gyms' => Gym::select('id', 'name')->get(),
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserMembershipRequest  $request, UserMembership $userMembership)
+    public function update(UpdateUserMembershipRequest $request, UserMembership $userMembership)
     {
-        $userMembership->update($request->validated());
+        try {
+            $userMembership->update($request->validated());
 
-        return redirect()->route("{$this->routeName}index")
-            ->with('success', 'Membresía actualizada correctamente.');
+            return redirect()->route("{$this->routeName}index")
+                ->with('success', 'Membresía actualizada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error al actualizar la membresía: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(UserMembership $userMembership)
     {
-        $userMembership->delete();
+        try {
+            $userMembership->delete();
 
-        return redirect()->route("{$this->routeName}index")
-            ->with('success', 'Membresía eliminada correctamente.');
+            return redirect()->route("{$this->routeName}index")
+                ->with('success', 'Membresía eliminada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al eliminar la membresía: ' . $e->getMessage());
+        }
     }
-    // En UserMembershipController.php
-    public function searchUsers22(Request $request)
-    {
-        $query = User::where('role', 'Member'); // Filtra por rol Member
 
-        if ($request->filled('gym_id')) {
-            $query->where('gym_id', $request->gym_id);
+    /**
+     * Buscar usuarios miembros por gimnasio
+     */
+    public function searchMembers(Request $request, $gymId)
+    {
+        $query = $request->input('q');
+
+        $users = User::where('gym_id', $gymId)
+            ->where(function($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%")
+                    ->orWhere('last_name', 'like', "%{$query}%")
+                    ->orWhere('mother_last_name', 'like', "%{$query}%")
+                    ->orWhere('email', 'like', "%{$query}%");
+            })
+            ->select('id', 'name', 'last_name', 'mother_last_name', 'email')
+            ->limit(10)
+            ->get();
+
+        return response()->json($users);
+    }
+
+    /**
+     * Descontar una sesión de la membresía
+     */
+    public function decrementSession(UserMembership $userMembership)
+    {
+        if ($userMembership->remaining_sessions > 0) {
+            $userMembership->decrement('remaining_sessions');
+
+            return redirect()->back()
+                ->with('success', 'Sesión descontada correctamente.');
         }
 
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%');
-            });
+        return redirect()->back()
+            ->with('error', 'No quedan sesiones disponibles.');
+    }
+
+    /**
+     * Cancelar membresía
+     */
+    public function cancel(UserMembership $userMembership)
+    {
+        $userMembership->update(['status' => 'cancelled']);
+
+        return redirect()->back()
+            ->with('success', 'Membresía cancelada correctamente.');
+    }
+
+    /**
+     * Verificar el estado de membresía de un usuario en un gimnasio
+     */
+    public function checkStatus(Request $request)
+    {
+        $userId = $request->input('user_id');
+        $gymId = $request->input('gym_id');
+
+        $activeMembership = UserMembership::where('user_id', $userId)
+            ->where('gym_id', $gymId)
+            ->whereIn('status', ['active', 'pending'])
+            ->with('membership')
+            ->first();
+
+        if ($activeMembership) {
+            return response()->json([
+                'has_active_membership' => true,
+                'current_status' => $activeMembership->status,
+                'membership_name' => $activeMembership->membership->name,
+                'start_date' => $activeMembership->start_date,
+                'end_date' => $activeMembership->end_date,
+            ]);
         }
 
         return response()->json([
-            'users' => $query->limit(20)->get(['id', 'name', 'email', 'gym_id'])
+            'has_active_membership' => false,
         ]);
-    }
-    // En UserMembershipController o UserController
-    public function searchUsers(Request $request)
-    {
-        $query = User::where('role', 'Member'); // Solo usuarios Member
-
-        if ($request->filled('gym_id')) {
-            $query->where('gym_id', $request->gym_id);
-        }
-
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        $users = $query->select('id', 'name', 'email', 'gym_id')
-            ->limit(20) // Limitar resultados
-            ->get();
-
-        return response()->json($users);
-    }
-    public function searchMembers(Request $request, $gymId)
-    {
-        $query = $request->get('q', '');
-
-        $users = User::where('gym_id', $gymId)
-            ->whereHas('roles', fn($q) => $q->where('name', 'Member'))
-            ->where('name', 'like', "%{$query}%")
-            ->select('id', 'name')
-            ->orderBy('name')
-            ->limit(20) // limita los resultados
-            ->get();
-
-        return response()->json($users);
     }
 }

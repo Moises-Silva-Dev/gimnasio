@@ -22,26 +22,17 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-// Route::get('/dashboard', function () {
 
-//     return Inertia::render('Dashboard', [
-//         'users' => User::all(),
-
-//     ]);
-// })->middleware(['auth'])->name('dashboard');
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
 
-
-
 Route::middleware('auth')->group(function () {
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //users
+    // Users
     Route::resource('users', controller: UserController::class);
     Route::resource('roles', RoleController::class)->names('roles');
     Route::resource('permissions', PermissionController::class);
@@ -59,12 +50,22 @@ Route::middleware('auth')->group(function () {
 
     // Memberships
     Route::resource('membership', controller: MembershipController::class);
-    Route::resource('user-memberships', controller: UserMembershipController::class);
-    Route::get('/user-memberships/search-users', [UserMembershipController::class, 'searchUsers'])
-        ->name('user-memberships.search-users');
 
+    // User Memberships
+    Route::resource('user-memberships', controller: UserMembershipController::class);
+
+    // Rutas adicionales para User Memberships
     Route::get('/gyms/{gym}/members/search', [UserMembershipController::class, 'searchMembers'])
         ->name('gyms.members.search');
+
+    Route::post('/user-memberships/{userMembership}/decrement-session', [UserMembershipController::class, 'decrementSession'])
+        ->name('user-memberships.decrement-session');
+
+    Route::post('/user-memberships/{userMembership}/cancel', [UserMembershipController::class, 'cancel'])
+        ->name('user-memberships.cancel');
+
+    Route::get('/user-memberships/check-status', [UserMembershipController::class, 'checkStatus'])
+        ->name('user-memberships.check-status');
 });
 
 require __DIR__ . '/auth.php';
