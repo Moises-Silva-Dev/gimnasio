@@ -118,19 +118,6 @@ const toggleRole = (roleId) => {
             :icon="mdiAccount" 
           />
         </FormField>
-
-        <FormField :error="form.errors.phone" label="Número Telefónico" required>
-          <FormControl
-            v-model="form.phone"
-            type="tel"
-            placeholder="7771234567"
-            maxlength="10"
-            :icon="mdiPhone"
-          />
-        </FormField>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <FormField :error="form.errors.last_name" label="Apellido Paterno" required>
           <FormControl 
             v-model="form.last_name" 
@@ -139,6 +126,11 @@ const toggleRole = (roleId) => {
             :icon="mdiAccountCircle" 
           />
         </FormField>
+    
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      
 
         <FormField :error="form.errors.mother_last_name" label="Apellido Materno" required>
           <FormControl 
@@ -146,6 +138,16 @@ const toggleRole = (roleId) => {
             type="text" 
             placeholder="Apellido materno"
             :icon="mdiAccountTie" 
+          />
+        </FormField>
+
+        <FormField :error="form.errors.phone" label="Número Telefónico" required>
+          <FormControl
+            v-model="form.phone"
+            type="tel"
+            placeholder="7771234567"
+            maxlength="10"
+            :icon="mdiPhone"
           />
         </FormField>
       </div>

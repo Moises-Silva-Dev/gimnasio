@@ -12,6 +12,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserMembershipController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -41,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     //users
-    Route::resource('users', controller: UserController::class);   
+    Route::resource('users', controller: UserController::class);
     Route::resource('roles', RoleController::class)->names('roles');
     Route::resource('permissions', PermissionController::class);
     Route::resource('modules', ModuleController::class);
@@ -58,7 +59,12 @@ Route::middleware('auth')->group(function () {
 
     // Memberships
     Route::resource('membership', controller: MembershipController::class);
+    Route::resource('user-memberships', controller: UserMembershipController::class);
+    Route::get('/user-memberships/search-users', [UserMembershipController::class, 'searchUsers'])
+        ->name('user-memberships.search-users');
+
+    Route::get('/gyms/{gym}/members/search', [UserMembershipController::class, 'searchMembers'])
+        ->name('gyms.members.search');
 });
 
 require __DIR__ . '/auth.php';
-

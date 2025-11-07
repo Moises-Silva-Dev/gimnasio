@@ -70,6 +70,12 @@ export default [
   icon: mdiCertificate,
   role: "Admin",
   },
+  {
+  route:"user-memberships.index",
+  label: "Membresías para usuarios",
+  icon: mdiCertificate,
+  role: "Admin",
+  },
 
   //View for memberships ->
 ];
